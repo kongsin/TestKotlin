@@ -18,29 +18,30 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import java.util.*
 
 class MenuActivity : AppCompatActivity(), ValueEventListener {
-    val msg : Message = Message()
+    val msg: Message = Message()
 
     override fun onCancelled(p0: DatabaseError?) {
         Toast.makeText(this@MenuActivity, p0!!.message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDataChange(p0: DataSnapshot?) {
-        println("Data was change")
-        if (messages!!.size == 0) {
-            p0!!.children.iterator().forEach {
-                msg ->
-                messages!!.add(msg.getValue(Message::class.java))
+        if (p0!!.hasChildren()) {
+            if (messages!!.size == 0) {
+                p0.children.iterator().forEach {
+                    msg ->
+                    messages!!.add(msg.getValue(Message::class.java))
+                }
+            } else {
+                messages!!.add(p0.children.last().getValue(Message::class.java))
             }
-        } else {
-            messages!!.add(p0!!.children.last().getValue(Message::class.java))
         }
         adapter!!.notifyDataSetChanged()
-        recycler.layoutManager.scrollToPosition(adapter!!.itemCount-1)
+        recycler.layoutManager.scrollToPosition(adapter!!.itemCount - 1)
     }
 
-    var user : FirebaseUser? = null
-    var messages : ArrayList<Message>? = arrayListOf()
-    var adapter : MessageAdapter? = null
+    var user: FirebaseUser? = null
+    var messages: ArrayList<Message>? = arrayListOf()
+    var adapter: MessageAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
