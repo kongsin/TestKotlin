@@ -35,6 +35,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
             messages!!.add(p0!!.children.last().getValue(Message::class.java))
         }
         adapter!!.notifyDataSetChanged()
+        recycler.layoutManager.scrollToPosition(adapter!!.itemCount-1)
     }
 
     var user : FirebaseUser? = null
@@ -48,9 +49,8 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         user = FirebaseAuth.getInstance().currentUser
         if (user == null) startActivity(Intent(this, LoginActivity::class.java))
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(this)
         layoutManager.stackFromEnd = true
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
 
         recycler.layoutManager = layoutManager
         recycler.setHasFixedSize(true)
@@ -63,11 +63,11 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         msg.subscribe(this)
 
         sendBtn.setOnClickListener {
-            if (message.text.length <= 0) return@setOnClickListener
+            if (editBox.text.toString().length <= 0) return@setOnClickListener
             msg.sender = user!!.email.toString()
-            msg.message = message.text.toString()
+            msg.message = editBox.text.toString()
             msg.push()
-            message.text.clear()
+            editBox.text.clear()
         }
     }
 
