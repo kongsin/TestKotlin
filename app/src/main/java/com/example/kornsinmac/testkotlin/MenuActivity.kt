@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.kornsinmac.testkotlin.adapter.MessageAdapter
+import com.example.kornsinmac.testkotlin.models.Message
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot

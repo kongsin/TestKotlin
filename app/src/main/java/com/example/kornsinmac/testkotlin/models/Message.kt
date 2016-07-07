@@ -1,4 +1,4 @@
-package com.example.kornsinmac.testkotlin
+package com.example.kornsinmac.testkotlin.models
 
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference

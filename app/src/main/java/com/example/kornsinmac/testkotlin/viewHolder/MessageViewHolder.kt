@@ -3,7 +3,7 @@ package com.example.kornsinmac.testkotlin.viewHolder
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
-import com.example.kornsinmac.testkotlin.Message
+import com.example.kornsinmac.testkotlin.models.Message
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.message_layout.view.*
 
