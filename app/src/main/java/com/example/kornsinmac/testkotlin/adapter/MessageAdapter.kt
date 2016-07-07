@@ -15,6 +15,7 @@ import java.util.*
  */
 class MessageAdapter(var context : Context,var messages : ArrayList<Message>, var user : FirebaseUser) : RecyclerView.Adapter<MessageViewHolder>() {
 
+
     override fun onBindViewHolder(holder: MessageViewHolder?, position: Int) {
         holder!!.process(messages[position], user)
         holder.setIsRecyclable(false)
