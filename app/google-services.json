@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "820787205021",
+    "firebase_url": "https://winmorcai.firebaseio.com",
+    "project_id": "winmorcai",
+    "storage_bucket": "winmorcai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820787205021:android:7ab2b5a30f2dac80",
+        "android_client_info": {
+          "package_name": "com.example.kornsinmac.testkotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820787205021-a1hha50li53n2pduo1d37krfa89jqt44.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kornsinmac.testkotlin",
+            "certificate_hash": "E27DC0BC21C57AF39468315A075E727AACFF11AA"
+          }
+        },
+        {
+          "client_id": "820787205021-8n36plchdmgiue9pm5t88pv4hs536t1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUDJUOofsOsJet36J5xJu9ee12fEcSCj8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820787205021-8n36plchdmgiue9pm5t88pv4hs536t1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

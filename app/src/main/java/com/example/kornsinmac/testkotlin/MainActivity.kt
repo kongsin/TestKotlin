@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,14 +22,5 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Wrong login", Toast.LENGTH_SHORT).show()
             }
         })
-
-        var users = ArrayList<User>()
-        for (i in 0..10){
-            users.add(User(20+i,"Kongsin"))
-        }
-
-        for (user in users){
-            println("$user")
-        }
     }
 }
