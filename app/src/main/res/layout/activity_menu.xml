@@ -13,7 +13,46 @@
         android:layout_height="50dp"
         android:id="@+id/signout"
         app:layout_constraintLeft_toLeftOf="@+id/activity_menu"
-        app:layout_constraintTop_toTopOf="@+id/activity_menu"
         app:layout_constraintRight_toRightOf="@+id/activity_menu"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_menu" />
+        app:layout_constraintBottom_toBottomOf="@+id/activity_menu"
+        app:layout_constraintHorizontal_bias="0.52" />
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/message"
+        android:hint="Message"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_menu"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toTopOf="@+id/activity_menu"
+        android:layout_marginTop="16dp"
+        app:layout_constraintRight_toLeftOf="@+id/sendBtn"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sendBtn" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sendBtn"
+        android:src="@drawable/ic_send"
+        app:layout_constraintTop_toTopOf="@+id/activity_menu"
+        android:layout_marginTop="16dp"
+        app:layout_constraintRight_toRightOf="@+id/activity_menu"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/recycler"
+        app:layout_constraintLeft_toLeftOf="@+id/activity_menu"
+        app:layout_constraintTop_toBottomOf="@+id/message"
+        android:layout_marginTop="8dp"
+        app:layout_constraintRight_toRightOf="@+id/activity_menu"
+        app:layout_constraintBottom_toTopOf="@+id/signout"
+        android:layout_marginBottom="8dp" />
 </android.support.constraint.ConstraintLayout>
