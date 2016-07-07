@@ -19,6 +19,7 @@ import java.util.*
 
 class MenuActivity : AppCompatActivity(), ValueEventListener {
     val msg: Message = Message()
+    var group : String? = null
 
     override fun onCancelled(p0: DatabaseError?) {
         Toast.makeText(this@MenuActivity, p0!!.message, Toast.LENGTH_SHORT).show()
@@ -29,6 +30,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
             if (messages!!.size == 0) {
                 p0.children.iterator().forEach {
                     msg ->
+                    println(msg.getValue())
                     messages!!.add(msg.getValue(Message::class.java))
                 }
             } else {
@@ -47,6 +49,8 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        group = intent.getStringExtra("Group")
+
         user = FirebaseAuth.getInstance().currentUser
         if (user == null) startActivity(Intent(this, LoginActivity::class.java))
 
@@ -61,13 +65,13 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         }
         recycler.adapter = adapter
 
-        msg.subscribe(this)
+        msg.subscribe(this, group as String)
 
         sendBtn.setOnClickListener {
             if (editBox.text.toString().length <= 0) return@setOnClickListener
             msg.sender = user!!.email.toString()
             msg.message = editBox.text.toString()
-            msg.push()
+            msg.push(group as String)
             editBox.text.clear()
         }
     }

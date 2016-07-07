@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         user = FirebaseAuth.getInstance().currentUser
         if (user != null){
-            startActivity(Intent(this, MenuActivity::class.java))
+            startActivity(Intent(this, GroupsActivity::class.java))
             finish()
         }
         email.hint = "Email"
@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful){
                     user = task.result.user
                     if (user != null){
-                        startActivity(Intent(this, MenuActivity::class.java))
+                        startActivity(Intent(this, GroupsActivity::class.java))
                         finish()
                     } else {
                         Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
