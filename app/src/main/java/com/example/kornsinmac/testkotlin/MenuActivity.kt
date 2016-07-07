@@ -3,6 +3,7 @@ package com.example.kornsinmac.testkotlin
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
@@ -38,7 +39,10 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
             }
         }
         adapter!!.notifyDataSetChanged()
-        recycler.layoutManager.scrollToPosition(adapter!!.itemCount - 1)
+        val lm = recycler.layoutManager as LinearLayoutManager
+        if(lm.findLastVisibleItemPosition() == adapter!!.itemCount-2){
+            recycler.layoutManager.scrollToPosition(adapter!!.itemCount - 1)
+        }
     }
 
     var user: FirebaseUser? = null
