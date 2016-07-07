@@ -22,12 +22,7 @@ class Message(var sender: String = "", var message: String, val event : ValueEve
         haskmap.put("message", this.message)
         var group = HashMap<String, Any>()
         group.put(myRef.ref.push().key, haskmap)
-        myRef.updateChildren(group, object : DatabaseReference.CompletionListener {
-            override fun onComplete(p0: DatabaseError?, p1: DatabaseReference?) {
-
-            }
-
-        })
+        myRef.updateChildren(group) { p0, p1 -> }
     }
 
 }
