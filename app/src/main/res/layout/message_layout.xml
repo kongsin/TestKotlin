@@ -7,7 +7,9 @@
     android:id="@+id/rootContent">
 
     <LinearLayout
-        android:orientation="vertical" android:layout_width="wrap_content"
+        android:id="@+id/message_group"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"

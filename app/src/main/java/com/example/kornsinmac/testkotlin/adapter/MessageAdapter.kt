@@ -17,6 +17,7 @@ class MessageAdapter(var context : Context,var messages : ArrayList<Message>, va
 
     override fun onBindViewHolder(holder: MessageViewHolder?, position: Int) {
         holder!!.process(messages[position], user)
+        holder.setIsRecyclable(false)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MessageViewHolder {

@@ -1,9 +1,14 @@
 package com.example.kornsinmac.testkotlin
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.example.kornsinmac.testkotlin.adapter.MessageAdapter
 import com.google.firebase.auth.FirebaseAuth
@@ -39,9 +44,15 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         setContentView(R.layout.activity_menu)
 
         user = FirebaseAuth.getInstance().currentUser
-        if (user == null) signout.callOnClick()
+        if (user == null) startActivity(Intent(this, LoginActivity::class.java))
 
-        recycler.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        layoutManager.stackFromEnd = true
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+
+        recycler.layoutManager = layoutManager
+        recycler.setHasFixedSize(true)
+
         adapter = messages?.let {
             MessageAdapter(this, it, this.user!!)
         }
@@ -49,11 +60,6 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
 
         val msg = Message(user!!.email.toString(), message.text.toString(), this)
         msg.loadData()
-
-        signout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
-        }
 
         sendBtn.setOnClickListener {
             if (message.text.length <= 0) return@setOnClickListener
@@ -63,4 +69,16 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
             message.text.clear()
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        FirebaseAuth.getInstance().signOut()
+        startActivity(Intent(this, LoginActivity::class.java))
+        return true
+    }
+
 }
