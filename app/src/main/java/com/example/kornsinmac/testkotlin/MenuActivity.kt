@@ -18,19 +18,23 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import java.util.*
 
 class MenuActivity : AppCompatActivity(), ValueEventListener {
+    val msg : Message = Message()
 
     override fun onCancelled(p0: DatabaseError?) {
         Toast.makeText(this@MenuActivity, p0!!.message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDataChange(p0: DataSnapshot?) {
-        messages?.clear()
-        p0?.children?.forEach {
-            msg ->
-            val tempMsg = Message(msg.child("sender").value.toString(), msg.child("message").value.toString(), this)
-            messages?.add(tempMsg)
+        println("Data was change")
+        if (messages!!.size == 0) {
+            p0!!.children.iterator().forEach {
+                msg ->
+                messages!!.add(msg.getValue(Message::class.java))
+            }
+        } else {
+            messages!!.add(p0!!.children.last().getValue(Message::class.java))
         }
-        adapter?.notifyDataSetChanged()
+        adapter!!.notifyDataSetChanged()
     }
 
     var user : FirebaseUser? = null
@@ -56,8 +60,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         }
         recycler.adapter = adapter
 
-        val msg = Message(user!!.email.toString(), message.text.toString(), this)
-        msg.loadData()
+        msg.subscribe(this)
 
         sendBtn.setOnClickListener {
             if (message.text.length <= 0) return@setOnClickListener

@@ -1,22 +1,25 @@
 package com.example.kornsinmac.testkotlin.models
 
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.*
 
-class Message(var sender: String = "", var message: String, val event : ValueEventListener) {
+class Message(var sender: String = "", var message: String = "") {
 
-    var firebaseDb = FirebaseDatabase.getInstance()
-    val myRef = firebaseDb!!.getReference("messages")
+    var firebaseDb : FirebaseDatabase
+    var myRef : DatabaseReference
 
-    fun loadData(){
+    init {
+        firebaseDb = FirebaseDatabase.getInstance()
+        myRef = firebaseDb!!.getReference("messages")
+    }
+
+    fun subscribe(event : ValueEventListener){
         myRef.addValueEventListener(event)
     }
 
     fun push(){
-        myRef.addValueEventListener(event)
         val haskmap = HashMap<String, Any>()
         haskmap.put("sender", this.sender)
         haskmap.put("message", this.message)
