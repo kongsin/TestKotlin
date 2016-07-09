@@ -107,6 +107,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.sign_out){
+            pref!!.edit().putString("LAST_GROUP", null).commit()
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(this, LoginActivity::class.java))
         } else if (item?.itemId == R.id.leave_group) {
