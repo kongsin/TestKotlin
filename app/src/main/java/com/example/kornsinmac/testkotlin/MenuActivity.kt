@@ -3,8 +3,8 @@ package com.example.kornsinmac.testkotlin
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -21,6 +21,7 @@ import java.util.*
 class MenuActivity : AppCompatActivity(), ValueEventListener {
     val msg: Message = Message()
     var group : String? = null
+    var busy = false
 
     override fun onCancelled(p0: DatabaseError?) {
         Toast.makeText(this@MenuActivity, p0!!.message, Toast.LENGTH_SHORT).show()
@@ -28,13 +29,10 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
 
     override fun onDataChange(p0: DataSnapshot?) {
         if (p0!!.hasChildren()) {
-            if (messages!!.size == 0) {
-                p0.children.iterator().forEach {
+            messages?.clear()
+            p0.children.iterator().forEach {
                     msg ->
-                    messages!!.add(msg.getValue(Message::class.java))
-                }
-            } else {
-                messages!!.add(p0.children.last().getValue(Message::class.java))
+                    messages?.add(msg.getValue(Message::class.java))
             }
         } else {
             messages?.let {
@@ -46,6 +44,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         if(lm.findLastVisibleItemPosition() == adapter!!.itemCount-2){
             recycler.layoutManager.scrollToPosition(adapter!!.itemCount - 1)
         }
+        busy = false
     }
 
     var user: FirebaseUser? = null
@@ -66,21 +65,38 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
 
         recycler.layoutManager = layoutManager
         recycler.setHasFixedSize(true)
+        scrollAction(recycler)
 
         adapter = messages?.let {
             MessageAdapter(this, it, this.user!!)
         }
         recycler.adapter = adapter
 
-        msg.subscribe(this, group as String)
+        msg.subscribe(this, group as String, 20)
 
         sendBtn.setOnClickListener {
             if (editBox.text.toString().length <= 0) return@setOnClickListener
             msg.sender = user!!.email.toString()
             msg.message = editBox.text.toString()
-            msg.push(group as String)
+            msg.push()
             editBox.text.clear()
         }
+    }
+
+    fun scrollAction(recycler : RecyclerView){
+        recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy < 0){
+                    val layoutManager = recyclerView!!.layoutManager as LinearLayoutManager
+                    val last = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    if (last == 0 && !busy) {
+                        msg.subscribe(this@MenuActivity, group as String, messages!!.size + 20)
+                        busy = true
+                    }
+                }
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

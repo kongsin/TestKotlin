@@ -7,20 +7,16 @@ import java.util.*
 
 class Message(var sender: String = "", var message: String = "") {
 
-    var firebaseDb : FirebaseDatabase
+    var firebaseDb : FirebaseDatabase? = null
     var msgRef: DatabaseReference? = null
 
-    init {
+    fun subscribe(event : ValueEventListener, groupName : String, limit : Int){
         firebaseDb = FirebaseDatabase.getInstance()
+        msgRef = firebaseDb!!.getReference("/messages/"+groupName+"/")
+        msgRef!!.limitToLast(limit).addValueEventListener(event)
     }
 
-    fun subscribe(event : ValueEventListener, groupName : String){
-        msgRef = firebaseDb.getReference("/messages/"+groupName+"/")
-        msgRef!!.addValueEventListener(event)
-    }
-
-    fun push(groupName: String){
-        msgRef = firebaseDb.getReference("/messages/"+groupName+"/")
+    fun push(){
         val haskmap = HashMap<String, Any>()
         haskmap.put("sender", this.sender)
         haskmap.put("message", this.message)
