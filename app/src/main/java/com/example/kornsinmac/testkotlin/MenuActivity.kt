@@ -30,20 +30,16 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
     override fun onDataChange(p0: DataSnapshot?) {
         if (p0!!.hasChildren()) {
             messages?.clear()
-            p0.children.iterator().forEach {
-                    msg ->
-                    messages?.add(msg.getValue(Message::class.java))
+            p0.children.forEachIndexed { i, dataSnapshot ->
+                messages?.add(dataSnapshot.getValue(Message::class.java))
             }
         } else {
             messages?.let {
                 messages!!.clear()
             }
         }
+        Collections.reverse(messages)
         adapter!!.notifyDataSetChanged()
-        val lm = recycler.layoutManager as LinearLayoutManager
-        if(lm.findLastVisibleItemPosition() == adapter!!.itemCount-2){
-            recycler.layoutManager.scrollToPosition(adapter!!.itemCount - 1)
-        }
         busy = false
     }
 
@@ -61,7 +57,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         if (user == null) startActivity(Intent(this, LoginActivity::class.java))
 
         val layoutManager = LinearLayoutManager(this)
-        layoutManager.stackFromEnd = true
+        layoutManager.reverseLayout = true
 
         recycler.layoutManager = layoutManager
         recycler.setHasFixedSize(true)
@@ -89,8 +85,9 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy < 0){
                     val layoutManager = recyclerView!!.layoutManager as LinearLayoutManager
-                    val last = layoutManager.findFirstCompletelyVisibleItemPosition()
-                    if (last == 0 && !busy) {
+                    val last = layoutManager.findLastCompletelyVisibleItemPosition()
+                    println(last)
+                    if (last == (messages!!.size -1) && !busy) {
                         msg.subscribe(this@MenuActivity, group as String, messages!!.size + 20)
                         busy = true
                     }
