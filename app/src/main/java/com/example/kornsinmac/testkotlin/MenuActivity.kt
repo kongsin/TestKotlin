@@ -31,11 +31,14 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
             if (messages!!.size == 0) {
                 p0.children.iterator().forEach {
                     msg ->
-                    println(msg.getValue())
                     messages!!.add(msg.getValue(Message::class.java))
                 }
             } else {
                 messages!!.add(p0.children.last().getValue(Message::class.java))
+            }
+        } else {
+            messages?.let {
+                messages!!.clear()
             }
         }
         adapter!!.notifyDataSetChanged()
