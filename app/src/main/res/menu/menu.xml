@@ -7,4 +7,6 @@
         android:visible="true"
         android:enabled="true"
         android:checkable="false" />
+    <item android:title="Leave Group"
+        android:id="@+id/leave_group" />
 </menu>

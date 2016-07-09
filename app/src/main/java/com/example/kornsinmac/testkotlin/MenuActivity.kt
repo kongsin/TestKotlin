@@ -1,6 +1,8 @@
 package com.example.kornsinmac.testkotlin
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -22,6 +24,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
     val msg: Message = Message()
     var group : String? = null
     var busy = false
+    var pref : SharedPreferences? = null
 
     override fun onCancelled(p0: DatabaseError?) {
         Toast.makeText(this@MenuActivity, p0!!.message, Toast.LENGTH_SHORT).show()
@@ -51,6 +54,7 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
 
+        pref = this.getSharedPreferences(this.packageName, Context.MODE_PRIVATE)
         group = intent.getStringExtra("Group")
 
         user = FirebaseAuth.getInstance().currentUser
@@ -102,8 +106,13 @@ class MenuActivity : AppCompatActivity(), ValueEventListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        FirebaseAuth.getInstance().signOut()
-        startActivity(Intent(this, LoginActivity::class.java))
+        if (item?.itemId == R.id.sign_out){
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
+        } else if (item?.itemId == R.id.leave_group) {
+            pref!!.edit().putString("LAST_GROUP", null).commit()
+            startActivity(Intent(this, GroupsActivity::class.java))
+        }
         return true
     }
 
